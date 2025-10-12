@@ -6,17 +6,33 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "tailwind:init": "node ./scripts/tailwind-init.js"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@prisma/client": "^6.17.0",
     "@types/node": "24.6.2",
     "@types/react": "19.2.0",
     "@types/react-dom": "19.2.0",
+    "axios": "^1.12.2",
+    "bcrypt": "^6.0.0",
     "eslint": "9.36.0",
     "eslint-config-next": "15.5.4",
     "next": "15.5.4",
+    "next-auth": "^4.24.11",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-icons": "^5.5.0",
+    "svr": "^2.3.28",
     "typescript": "5.9.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "autoprefixer": "^10.4.21",
+    "mongodb": "^6.20.0",
+    "postcss": "^8.5.6",
+    "prisma": "^6.17.0",
+    "tailwindcss": "^3.4.18"
   }
 }
