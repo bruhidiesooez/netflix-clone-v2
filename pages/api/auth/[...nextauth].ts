@@ -19,9 +19,9 @@ export default NextAuth({
         }),
         GoogleProvider({
             // support both GOOGLE_ID (existing .env) and GOOGLE_CLIENT_ID
-            clientId: process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_ID || '',
+            clientId: process.env.GOOGLE_CLIENT_ID || '',
             // support both common secret names
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_SECRET || ''
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
         }),
         Credentials({
             id: "credentials",
