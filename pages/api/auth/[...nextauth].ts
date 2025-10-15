@@ -5,9 +5,9 @@ import { compare } from "bcrypt";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-// Temporarily commented out until database is working
-// import { PrismaAdapter } from "@next-auth/prisma-adapter";
-// import prismadb from "@/lib/prismadb";
+
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import prismadb from "@/lib/prismadb";
 
 export default NextAuth({
     providers: [
@@ -19,8 +19,7 @@ export default NextAuth({
             clientId: process.env.GOOGLE_CLIENT_ID || '',
             clientSecret: process.env.GOOGLE_CLIENT_SECRET || ''
         }),
-        // Temporarily disable credentials provider until database is working
-        /*
+        
         Credentials({
             id: "credentials",
             name: "Credentials",
@@ -38,13 +37,17 @@ export default NextAuth({
                 if(!credentials?.email || !credentials?.password){
                     throw new Error("Invalid Credentials");
                 }
-
-                const user = await prismadb.user.findUnique({
-                    where: {
-                        email: credentials.email
-                    }
-                });
-
+                let user
+                try {
+                    user = await prismadb.user.findUnique({
+                        where: {
+                            email: credentials.email
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error fetching user in authorize:", error);
+                    throw new Error("Internal Server Error");
+                }
                 if(!user || !user.hashedPassword){
                     throw new Error("Invalid Credentials");
                 }
@@ -61,28 +64,28 @@ export default NextAuth({
                 return user;
             }
         })
-        */
+        
     ],
     pages:{
         signIn: "/auth",
     },
     debug: process.env.NODE_ENV === "development",
-    // Temporarily disable Prisma adapter until database is working
-    // adapter: PrismaAdapter(prismadb),
+
+    adapter: PrismaAdapter(prismadb),
     callbacks: {
         async signIn({ user, account, profile }) {
-            // Temporarily allow all OAuth sign-ins without database checks
+ 
             return true;
         },
         async session({ session, token }) {
-            // Add user ID to session from JWT token
+           
             if (token?.sub && session?.user) {
                 (session.user as any).id = token.sub;
             }
             return session;
         },
         async jwt({ token, user, account }) {
-            // Store user info in JWT token
+ 
             if (user) {
                 token.id = user.id;
             }
