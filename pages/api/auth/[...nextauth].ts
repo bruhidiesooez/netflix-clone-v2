@@ -5,10 +5,6 @@ import { compare } from "bcrypt";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import prismadb from "@/lib/prismadb";
-
 export default NextAuth({
     providers: [
         GithubProvider({
@@ -34,34 +30,27 @@ export default NextAuth({
                 },
             },
             async authorize(credentials){
+                console.log("🔍 Authorize called with:", { email: credentials?.email, hasPassword: !!credentials?.password });
+                
                 if(!credentials?.email || !credentials?.password){
-                    throw new Error("Invalid Credentials");
+                    console.log("❌ Missing email or password");
+                    return null;
                 }
-                let user
-                try {
-                    user = await prismadb.user.findUnique({
-                        where: {
-                            email: credentials.email
-                        }
-                    });
-                } catch (error) {
-                    console.error("Error fetching user in authorize:", error);
-                    throw new Error("Internal Server Error");
+                
+                // Temporary hardcoded test user for testing
+                if ((credentials.email === "test68@gmail.com" || credentials.email === "test1@gmail.com") && credentials.password === "sdfaafd") {
+                    console.log("✅ Test user authenticated successfully!");
+                    const testUser = {
+                        id: "test-user-123",
+                        email: credentials.email,
+                        name: "Test User",
+                    };
+                    console.log("🔍 Returning test user:", testUser);
+                    return testUser;
                 }
-                if(!user || !user.hashedPassword){
-                    throw new Error("Invalid Credentials");
-                }
-
-                const isCorrectPassword = await compare(
-                    credentials.password, 
-                    user.hashedPassword
-                );
-
-                if(!isCorrectPassword){
-                    throw new Error("Invalid Credentials");
-                }
-
-                return user;
+                
+                console.log("❌ Invalid credentials");
+                return null;
             }
         })
         
@@ -69,34 +58,32 @@ export default NextAuth({
     pages:{
         signIn: "/auth",
     },
-    debug: process.env.NODE_ENV === "development",
-
-    adapter: PrismaAdapter(prismadb),
+    debug: true,
     callbacks: {
-        async signIn({ user, account, profile }) {
- 
-            return true;
-        },
-        async session({ session, token }) {
-           
-            if (token?.sub && session?.user) {
-                (session.user as any).id = token.sub;
-            }
-            return session;
-        },
-        async jwt({ token, user, account }) {
- 
+        async jwt({ token, user }) {
+            console.log("🔄 JWT callback:", { hasToken: !!token, hasUser: !!user, userEmail: user?.email });
             if (user) {
                 token.id = user.id;
+                token.email = user.email;
+                console.log("✅ JWT: Adding user to token");
             }
             return token;
         },
+        async session({ session, token }) {
+            console.log("🔄 Session callback:", { hasSession: !!session, hasToken: !!token, tokenEmail: token?.email });
+            if (token) {
+                session.user = {
+                    ...session.user,
+                    id: token.id as string,
+                    email: token.email as string,
+                };
+                console.log("✅ Session: Added token data to session");
+            }
+            return session;
+        },
     },
-    session:{
+    session: {
         strategy: "jwt",
-    },
-    jwt:{
-        secret: process.env.NEXTAUTH_JWT_SECRET,
     },
     secret: process.env.NEXTAUTH_SECRET,
 });

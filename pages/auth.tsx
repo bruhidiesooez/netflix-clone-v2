@@ -2,13 +2,14 @@ import Input from "@/components/Input";
 import axios from "axios";
 import { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 
 
 const Auth = () => {
-
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState(''); 
@@ -21,15 +22,30 @@ const Auth = () => {
 
        const login = useCallback(async () => {
       try {
-        await signIn('credentials', {
+        const callbackUrl = router.query.callbackUrl as string || '/profiles';
+        console.log('🚀 Login attempt with callback URL:', callbackUrl);
+        
+        const result = await signIn('credentials', {
           email,
           password,
-          callbackUrl: '/profiles'
+          redirect: false,
         });
+        
+        console.log('🔍 SignIn result:', result);
+        
+        if (result?.ok) {
+          console.log('✅ Login successful, redirecting to:', callbackUrl);
+          // Wait a moment for session to be established
+          setTimeout(() => {
+            window.location.href = callbackUrl;
+          }, 1000);
+        } else {
+          console.error('❌ Login failed:', result?.error);
+        }
       } catch (error) {
-        console.log(error);
+        console.log('❌ Login error:', error);
       }
-    }, [email, password]);
+    }, [email, password, router.query.callbackUrl]);
 
     const register = useCallback(async () => {
       try {
@@ -85,7 +101,10 @@ const Auth = () => {
                 </button>
                 <div className="flex flex-row items-center gap-4 mt-8 justify-center">
                   <div
-                  onClick={() => signIn('google', { callbackUrl: '/profiles' })}
+                  onClick={() => {
+                    const callbackUrl = router.query.callbackUrl as string || '/profiles';
+                    signIn('google', { callbackUrl });
+                  }}
                   className="
                     w-10
                     h-10
@@ -102,7 +121,10 @@ const Auth = () => {
                     <FcGoogle size={30}/>
                   </div>
                   <div
-                  onClick={() => signIn('github', { callbackUrl: '/profiles' })}
+                  onClick={() => {
+                    const callbackUrl = router.query.callbackUrl as string || '/profiles';
+                    signIn('github', { callbackUrl });
+                  }}
                   className="
                     w-10
                     h-10

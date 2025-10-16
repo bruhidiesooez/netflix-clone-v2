@@ -5,8 +5,15 @@ import { useRouter } from "next/router";
 
 export async function getServerSideProps(context: NextPageContext) {
     const session = await getSession(context);
+    
+    console.log("🔍 Profiles - Session check:", { 
+        hasSession: !!session, 
+        userEmail: session?.user?.email,
+        userId: session?.user?.id 
+    });
 
     if (!session) {
+        console.log("❌ No session found, redirecting to auth");
         return {
             redirect: {
                 destination: '/auth',
@@ -15,6 +22,7 @@ export async function getServerSideProps(context: NextPageContext) {
         }
     }
 
+    console.log("✅ Session found, showing profiles page");
     return {
         props: {}
     }
