@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth from "next-auth/next";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 
@@ -60,7 +60,7 @@ export default NextAuth({
     },
     debug: true,
     callbacks: {
-        async jwt({ token, user }) {
+    async jwt({ token, user }: any) {
             console.log("🔄 JWT callback:", { hasToken: !!token, hasUser: !!user, userEmail: user?.email });
             if (user) {
                 token.id = user.id;
@@ -69,7 +69,7 @@ export default NextAuth({
             }
             return token;
         },
-        async session({ session, token }) {
+    async session({ session, token }: any) {
             console.log("🔄 Session callback:", { hasSession: !!session, hasToken: !!token, tokenEmail: token?.email });
             if (token) {
                 session.user = {

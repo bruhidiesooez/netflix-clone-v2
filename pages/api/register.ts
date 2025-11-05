@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
-import { hash } from 'crypto';
+import { randomUUID } from 'crypto';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -28,6 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const user = await prismadb.user.create({
             data: {
+                id: randomUUID(),
                 email,
                 name,
                 hashedPassword,

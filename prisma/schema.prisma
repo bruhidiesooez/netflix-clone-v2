@@ -13,11 +13,12 @@ model Movie {
   description String
   title       String
 
-  @@map("Movie")
+  @@map("movies")
 }
 
+
 model User {
-  id String @id @default(cuid())
+  id String @id
   name String
   image String?
   email String? @unique

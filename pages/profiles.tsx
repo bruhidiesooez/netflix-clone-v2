@@ -1,15 +1,15 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { NextPageContext } from "next"
+import { GetServerSidePropsContext } from "next"
 import { getSession } from "next-auth/react"
 import { useRouter } from "next/router";
 
-export async function getServerSideProps(context: NextPageContext) {
-    const session = await getSession(context);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const session = await getSession(context as any);
     
     console.log("🔍 Profiles - Session check:", { 
         hasSession: !!session, 
         userEmail: session?.user?.email,
-        userId: session?.user?.id 
+        userId: (session?.user as any)?.id
     });
 
     if (!session) {

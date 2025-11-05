@@ -1,0 +1,187 @@
+
+> netflix-clone@0.1.0 dev
+> next dev
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/vijenderkumar/netflix-clone-v2/package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * /Users/vijenderkumar/netflix-clone-v2/netflix-clone/package-lock.json
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.129:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1127ms
+ ✓ Compiled /api/movies in 252ms (133 modules)
+prisma:warn In production, we recommend using `prisma generate --no-engine` (See: `prisma generate --help`)
+[MOVIES_API_ERROR] DB fetch failed or timed out] Error: DB_TIMEOUT
+    at Timeout.eval [as _onTimeout] (pages/api/movies.ts:19:28)
+  17 | 		const dbPromise = prismadb.movie.findMany();
+  18 | 		const timeoutPromise = new Promise((_, reject) =>
+> 19 | 			setTimeout(() => reject(new Error('DB_TIMEOUT')), DB_TIMEOUT_MS)
+     | 			                        ^
+  20 | 		);
+  21 |
+  22 | 		let movies;
+ GET /api/movies 200 in 1108ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1459ms (471 modules)
+ ✓ Compiled in 72ms (471 modules)
+ ✓ Compiled /api/auth/[...nextauth] in 18ms (160 modules)
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+🔄 JWT callback: { hasToken: true, hasUser: false, userEmail: undefined }
+🔄 Session callback: {
+  hasSession: true,
+  hasToken: true,
+  tokenEmail: 'vijen.benu@gmail.com'
+}
+✅ Session: Added token data to session
+ GET /api/auth/session 200 in 85ms
+ GET / 200 in 2072ms
+ ✓ Compiled /api/movies in 22ms (165 modules)
+ ✓ Compiled (167 modules)
+[MOVIES_API_ERROR] DB fetch failed or timed out] Error: DB_TIMEOUT
+    at Timeout.eval [as _onTimeout] (pages/api/movies.ts:19:28)
+  17 | 		const dbPromise = prismadb.movie.findMany();
+  18 | 		const timeoutPromise = new Promise((_, reject) =>
+> 19 | 			setTimeout(() => reject(new Error('DB_TIMEOUT')), DB_TIMEOUT_MS)
+     | 			                        ^
+  20 | 		);
+  21 |
+  22 | 		let movies;
+ GET /api/movies 200 in 901ms
+Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.movie.count()` invocation:
+
+
+The table `public.movies` does not exist in the current database.
+    at async handler (pages/api/random.ts:12:28)
+  10 |     try {
+  11 |         // Public endpoint: return a random movie without requiring authentication
+> 12 |         const movieCount = await prismadb.movie.count();
+     |                            ^
+  13 |         if (movieCount === 0) {
+  14 |             return res.status(404).json({ error: 'No movies found' });
+  15 |         } {
+  code: 'P2021',
+  meta: [Object],
+  clientVersion: '6.17.1'
+}
+[RANDOM_API_ERROR] Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.movie.count()` invocation:
+
+
+The table `public.movies` does not exist in the current database.
+    at async handler (pages/api/random.ts:12:28)
+  10 |     try {
+  11 |         // Public endpoint: return a random movie without requiring authentication
+> 12 |         const movieCount = await prismadb.movie.count();
+     |                            ^
+  13 |         if (movieCount === 0) {
+  14 |             return res.status(404).json({ error: 'No movies found' });
+  15 |         } {
+  code: 'P2021',
+  meta: [Object],
+  clientVersion: '6.17.1'
+}
+ GET /api/random 200 in 4071ms
+Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.movie.count()` invocation:
+
+
+The table `public.movies` does not exist in the current database.
+    at async handler (pages/api/random.ts:12:28)
+  10 |     try {
+  11 |         // Public endpoint: return a random movie without requiring authentication
+> 12 |         const movieCount = await prismadb.movie.count();
+     |                            ^
+  13 |         if (movieCount === 0) {
+  14 |             return res.status(404).json({ error: 'No movies found' });
+  15 |         } {
+  code: 'P2021',
+  meta: [Object],
+  clientVersion: '6.17.1'
+}
+[RANDOM_API_ERROR] Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.movie.count()` invocation:
+
+
+The table `public.movies` does not exist in the current database.
+    at async handler (pages/api/random.ts:12:28)
+  10 |     try {
+  11 |         // Public endpoint: return a random movie without requiring authentication
+> 12 |         const movieCount = await prismadb.movie.count();
+     |                            ^
+  13 |         if (movieCount === 0) {
+  14 |             return res.status(404).json({ error: 'No movies found' });
+  15 |         } {
+  code: 'P2021',
+  meta: [Object],
+  clientVersion: '6.17.1'
+}
+ GET /api/random 200 in 818ms
+ ✓ Compiled in 237ms (499 modules)
+ ✓ Compiled in 98ms (499 modules)
+ ✓ Compiled /api/auth/[...nextauth] in 16ms (166 modules)
+🔄 JWT callback: { hasToken: true, hasUser: false, userEmail: undefined }
+🔄 Session callback: {
+  hasSession: true,
+  hasToken: true,
+  tokenEmail: 'vijen.benu@gmail.com'
+}
+✅ Session: Added token data to session
+ GET /api/auth/session 200 in 29ms
+Billboard data: undefined
+ GET / 200 in 390ms
+ ✓ Compiled /api/movies in 18ms (168 modules)
+[MOVIES_API_ERROR] DB fetch failed or timed out] Error: DB_TIMEOUT
+    at Timeout.eval [as _onTimeout] (pages/api/movies.ts:19:28)
+  17 | 		const dbPromise = prismadb.movie.findMany();
+  18 | 		const timeoutPromise = new Promise((_, reject) =>
+> 19 | 			setTimeout(() => reject(new Error('DB_TIMEOUT')), DB_TIMEOUT_MS)
+     | 			                        ^
+  20 | 		);
+  21 |
+  22 | 		let movies;
+ GET /api/movies 304 in 831ms
+Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.movie.count()` invocation:
+
+
+The table `public.movies` does not exist in the current database.
+    at async handler (pages/api/random.ts:12:28)
+  10 |     try {
+  11 |         // Public endpoint: return a random movie without requiring authentication
+> 12 |         const movieCount = await prismadb.movie.count();
+     |                            ^
+  13 |         if (movieCount === 0) {
+  14 |             return res.status(404).json({ error: 'No movies found' });
+  15 |         } {
+  code: 'P2021',
+  meta: [Object],
+  clientVersion: '6.17.1'
+}
+[RANDOM_API_ERROR] Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.movie.count()` invocation:
+
+
+The table `public.movies` does not exist in the current database.
+    at async handler (pages/api/random.ts:12:28)
+  10 |     try {
+  11 |         // Public endpoint: return a random movie without requiring authentication
+> 12 |         const movieCount = await prismadb.movie.count();
+     |                            ^
+  13 |         if (movieCount === 0) {
+  14 |             return res.status(404).json({ error: 'No movies found' });
+  15 |         } {
+  code: 'P2021',
+  meta: [Object],
+  clientVersion: '6.17.1'
+}
+ GET /api/random 200 in 952ms
+[?25h
